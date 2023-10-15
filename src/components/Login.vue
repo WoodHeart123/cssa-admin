@@ -3,21 +3,22 @@
         <div class="container">
             <p class="title">WELCOME</p>
             <div class="input-c">
-                <Input prefix="ios-contact" v-model="account" placeholder="用户名" clearable @on-blur="verifyAccount" />
+                <Input prefix="ios-contact" v-model="account" placeholder="用户名" clearable/>
                 <p class="error">{{accountError}}</p>
             </div>
             <div class="input-c">
-                <Input type="password" v-model="pwd" prefix="md-lock" placeholder="密码" clearable @on-blur="verifyPwd"
+                <Input type="password" v-model="pwd" prefix="md-lock" placeholder="密码" clearable
                 @keyup.enter.native="submit" />
                 <p class="error">{{pwdError}}</p>
             </div>
             <Button :loading="isShowLoading" class="submit" type="primary" @click="submit">登陆</Button>
-            <p class="account"><span @click="register">注册账号</span> | <span @click="forgetPwd">忘记密码</span></p>
+            <p class="account"> <span @click="forgetPwd">忘记密码</span></p>
         </div>
     </div>
 </template>
 
 <script>
+import { login } from '@/api'
 export default {
     name: 'login',
     data() {
@@ -42,44 +43,30 @@ export default {
         },
     },
     methods: {
-        verifyAccount() {
-            if (this.account !== 'admin') {
-                this.accountError = '账号为admin'
-            } else {
-                this.accountError = ''
-            }
-        },
-        verifyPwd() {
-            if (this.pwd !== 'admin') {
-                this.pwdError = '密码为admin'
-            } else {
-                this.pwdError = ''
-            }
-        },
-        register() {
-
-        },
         forgetPwd() {
 
         },
         submit() {
-            if (this.account === 'admin' && this.pwd === 'admin') {
-                this.isShowLoading = true
-                // 登陆成功 设置用户信息
-                localStorage.setItem('userImg', 'https://avatars3.githubusercontent.com/u/22117876?s=460&v=4')
-                localStorage.setItem('userName', '小明')
-                // 登陆成功 假设这里是后台返回的 token
-                localStorage.setItem('token', 'i_am_token')
-                this.$router.push({ path: this.redirect || '/' })
-            } else {
-                if (this.account !== 'admin') {
-                    this.accountError = '账号为admin'
-                }
-
-                if (this.pwd !== 'admin') {
-                    this.pwdError = '密码为admin'
-                }
+            if(this.account.length === 0){
+                this.accountError = "请填写账号"
+                return
+            }else if(this.pwd.length === 0){
+                this.pwdError = "请填写密码"
+                return
             }
+            this.isShowLoading = true;
+            login(this.account, this.pwd).then((res) => {
+                if(res.status == 301){
+                    this.pwdError = "用户名或密码错误"
+                }else if(res.status == 100){
+                    localStorage.setItem('userInfo', JSON.stringify(res.data))
+                    localStorage.setItem('token', JSON.stringify(res.data.token))
+                    this.$router.push({ path: this.redirect || '/' })
+                }
+                this.isShowLoading = false
+            }).catch((e) => {
+                this.isShowLoading = false;
+            })
         },
     },
 }

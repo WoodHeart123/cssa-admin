@@ -39,6 +39,12 @@ export const asyncRoutes = {
         meta: { title: '表格' },
         component: () => import('../views/T1.vue'),
     },
+    orguser: {
+        path: 'orguser',
+        name: 'orguser',
+        meta: {title: '组织用户'},
+        component: () => import ('../views/OrgUser.vue')
+    },
     password: {
         path: 'password',
         name: 'password',
@@ -51,12 +57,12 @@ export const asyncRoutes = {
         meta: { title: '通知消息' },
         component: () => import('../views/Msg.vue'),
     },
-    userinfo: {
+    userinfo:{
         path: 'userinfo',
         name: 'userinfo',
         meta: { title: '用户信息' },
         component: () => import('../views/UserInfo.vue'),
-    },
+    }
 }
 
 const createRouter = () => new Router({

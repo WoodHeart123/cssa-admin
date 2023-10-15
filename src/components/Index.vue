@@ -5,7 +5,7 @@
             <!-- logo -->
             <div class="logo-c">
                 <img src="../assets/imgs/logo.png" alt="logo" class="logo">
-                <span v-show="isShowAsideTitle">后台管理系统</span>
+                <span v-show="isShowAsideTitle">CSSA后台管理系统</span>
             </div>
             <!-- 菜单栏 -->
             <Menu class="menu" ref="asideMenu" theme="dark" width="100%" @on-select="selectMenuCallback"
@@ -88,27 +88,20 @@
                         <p class="crumbs">{{crumbs}}</p>
                     </div>
                     <div class="h-right">
-                        <!-- 消息 -->
-                        <div class="notice-c" @click="info" title="查看新消息">
-                            <div :class="{newMsg: hasNewMsg}"></div>
-                            <Icon type="ios-notifications-outline" />
-                        </div>
                         <!-- 用户头像 -->
                         <div class="user-img-c">
-                            <img :src="userImg">
+                            <img :src="'https://cssa-mini-na.oss-us-west-1.aliyuncs.com/cssa-mini-avatar/' + this.userInfo.avatar + '.jpg'">
                         </div>
                         <!-- 下拉菜单 -->
                         <Dropdown trigger="click" @on-click="userOperate" @on-visible-change="showArrow">
                             <div class="pointer">
-                                <span>{{userName}}</span>
+                                <span>{{userInfo.name}}</span>
                                 <Icon v-show="arrowDown" type="md-arrow-dropdown"/>
                                 <Icon v-show="arrowUp" type="md-arrow-dropup"/>
                             </div>
                             <DropdownMenu slot="list">
-                                <!-- name标识符 -->
-                                <DropdownItem name="1">修改密码</DropdownItem>
-                                <DropdownItem name="2">基本资料</DropdownItem>
-                                <DropdownItem divided  name="3">退出登陆</DropdownItem>
+                                <DropdownItem name="1">基本资料</DropdownItem>
+                                <DropdownItem divided  name="2">退出登陆</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -163,6 +156,7 @@ export default {
         return {
             // 用于储存页面路径
             paths: {},
+            userInfo: {},
             // 当前显示页面
             currentPage: '',
             openMenus: [], // 要打开的菜单名字 name属性
@@ -204,8 +198,7 @@ export default {
         })
 
         // 设置用户信息
-        this.userName = localStorage.getItem('userName')
-        this.userImg = localStorage.getItem('userImg')
+        this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
 
         this.main = document.querySelector('.sec-right')
         this.asideArrowIcons = document.querySelectorAll('aside .ivu-icon-ios-arrow-down')
@@ -338,14 +331,10 @@ export default {
         userOperate(name) {
             switch (name) {
                 case '1':
-                    // 修改密码
-                    this.gotoPage('password')
-                    break
-                case '2':
                     // 基本资料
                     this.gotoPage('userinfo')
                     break
-                case '3':
+                case '2':
                     resetTokenAndClearUser()
                     this.$router.push({ name: 'login' })
                     break
