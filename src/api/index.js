@@ -14,3 +14,15 @@ export function login(username, password){
 export function getAdminList(){
     return request.get('/api/admin/list')
 }
+
+export function sendEmail(receiver, subject, message){
+    return request.post('/api/email/send', {
+        subject: subject,
+        message: message,
+        receiver: receiver
+    })
+}
+
+export function invite(username){
+    return request.get('/api/admin/invite?username=' + username)
+}

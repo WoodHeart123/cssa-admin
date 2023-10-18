@@ -156,7 +156,9 @@ export default {
         return {
             // 用于储存页面路径
             paths: {},
-            userInfo: {},
+            userInfo: {
+                avatar: 1
+            },
             // 当前显示页面
             currentPage: '',
             openMenus: [], // 要打开的菜单名字 name属性
@@ -198,7 +200,13 @@ export default {
         })
 
         // 设置用户信息
-        this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
+        this.userInfo = localStorage.getItem("userInfo")
+        console.log(!this.userInfo)
+        if(!this.userInfo){
+            this.$router.push({ name: 'login' })
+        }else{
+            this.userInfo = JSON.parse(this.userInfo)
+        }
 
         this.main = document.querySelector('.sec-right')
         this.asideArrowIcons = document.querySelectorAll('aside .ivu-icon-ios-arrow-down')
