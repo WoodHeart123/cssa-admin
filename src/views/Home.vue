@@ -111,6 +111,8 @@ export default {
   margin: 10px;
   flex-direction: column;
 }
+
+
 .home-split-pane {
   padding: 10px;
   background: #fff;
@@ -124,8 +126,7 @@ export default {
   position: relative;
 }
 .timeline-scroll{
-    margin-top: 10px;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     height: calc(100% - 50px);
     overflow-y: hidden;
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="login-vue" :style="bg">
         <div class="container">
-            <p class="title">WELCOME</p>
+            <p class="title">欢迎来到CSSA管理后台</p>
             <div class="input-c">
                 <Input prefix="ios-contact" v-model="account" placeholder="用户名" clearable/>
                 <p class="error">{{accountError}}</p>
@@ -23,8 +23,8 @@ export default {
     name: 'login',
     data() {
         return {
-            account: 'admin',
-            pwd: 'admin',
+            account: '',
+            pwd: '',
             accountError: '',
             pwdError: '',
             isShowLoading: false,
@@ -79,6 +79,8 @@ export default {
     justify-content: center;
     align-items: center;
     color: #fff;
+    background-repeat: no-repeat;
+  background-size: cover;
 }
 .login-vue .container {
     background: rgba(255, 255, 255, .5);

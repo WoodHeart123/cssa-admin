@@ -43,7 +43,7 @@ service.interceptors.response.use(response => {
     closeLoading()
     if (error.name == 'Error') {
         Message.error({
-            content: error.msg,
+            content: error.message,
         })
     } else {
         Message.error({
