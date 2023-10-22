@@ -36,6 +36,17 @@ const store = new Vuex.Store({
                     },
                 ],
             },
+            {
+                text: '宣传',
+                type: 'ios-book',
+                children: [
+                    {
+                        type: "ios-calendar",
+                        text: '文宣预约表',                    
+                        name: "articleschedule"
+                    }
+                ]
+            }
         ],
     },
     mutations: {

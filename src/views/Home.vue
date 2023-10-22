@@ -3,6 +3,18 @@
     <div class="home-content">
       <div class="home-split-pane">
         <h3>我的文宣</h3>
+        <Card v-for="article in articleSchedule" :key="article.id">
+          <a href="#" slot="extra" @click.prevent="changeLimit">
+            <Icon type="ios-loop-strong"></Icon>
+            查看更多
+          </a>
+          <p slot="title">{{ article.date }}</p>
+
+          <p class="content">
+            主题：{{ article.title }}
+          </p>
+          <p class="content">创建人：{{ article.author }}</p>
+        </Card>
       </div>
       <div class="home-split-pane">
         <h3>我的活动</h3>
@@ -10,28 +22,32 @@
     </div>
     <div class="home-content">
       <div slot="right" class="home-split-horizontal">
-        <div style="padding:10px">
-            <h3 >文宣安排</h3>
+        <div style="padding: 10px">
+          <h3>文宣安排</h3>
         </div>
         <div class="timeline-scroll">
-            <Timeline style="margin-top:40px;z-index: 5">
-          <TimelineItem v-for="article in articleSchedule" :key="article.id">
-            <Card>
-              <a href="#" slot="extra" @click.prevent="changeLimit">
-                <Icon type="ios-loop-strong"></Icon>
-                {{article.isExternal?"":"安排排版人员"}}
-              </a>
-              <p slot="title">{{ article.date }}</p>
+          <Timeline style="z-index: 5">
+            <TimelineItem v-for="article in articleSchedule" :key="article.id">
+              <Card style="padding: 5px">
+                <a href="#" slot="extra" @click.prevent="changeLimit">
+                  <Icon type="ios-loop-strong"></Icon>
+                  {{ article.isExternal ? "" : "安排排版人员" }}
+                </a>
+                <p slot="title">{{ article.date }}</p>
 
-              <p class="content">主题：<a>{{ article.title }}</a>{{article.isExternal?"（外部）":""}}</p>
-              <p v-show="!article.isExternal" class="content">负责人：{{ article.author }}</p>
-              <p class="content">创建人：{{ article.author }}</p>
-            </Card>
-          </TimelineItem>
-          <TimelineItem><a href="#">查看更多</a></TimelineItem>
-        </Timeline>
+                <p class="content">
+                  主题：<a>{{ article.title }}</a
+                  >{{ article.isExternal ? "（外部）" : "" }}
+                </p>
+                <p v-show="!article.isExternal" class="content">
+                  负责人：{{ article.author }}
+                </p>
+                <p class="content">创建人：{{ article.author }}</p>
+              </Card>
+            </TimelineItem>
+            <TimelineItem><a href="#">查看更多</a></TimelineItem>
+          </Timeline>
         </div>
-        
       </div>
     </div>
   </div>
@@ -39,7 +55,7 @@
 
 <script>
 import { fetchUserData } from "@/api";
-import { getAdminList} from "@/api";
+import { getAdminList } from "@/api";
 export default {
   name: "home",
   data() {
@@ -81,7 +97,7 @@ export default {
       ],
     };
   },
-  mounted(){
+  mounted() {
     getAdminList().then((res) => {
       this.userList = res.data;
     });
@@ -107,7 +123,7 @@ export default {
 }
 .home-content {
   border-radius: 5px;
-
+  overflow: hidden;
   margin: 10px;
   flex-direction: column;
 }
@@ -124,13 +140,17 @@ export default {
   background: #fff;
   border-radius: 8px;
   position: relative;
+  padding: 20px;
 }
 .timeline-scroll{
-    padding: 0 20px 20px 20px;
+    margin-top: 10px;
+    padding: 20px;
     height: calc(100% - 50px);
     overflow-y: hidden;
 }
-.timeline-scroll:hover, .timeline-scroll:active, .timeline-scroll:focus {
+.timeline-scroll:hover,
+.timeline-scroll:active,
+.timeline-scroll:focus {
   overflow-y: auto;
 }
 .timeline-scroll::-webkit-scrollbar-track-piece {
@@ -150,5 +170,4 @@ export default {
 .timeline-scroll::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0);
 }
-
 </style>
